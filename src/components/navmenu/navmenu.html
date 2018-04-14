@@ -1,0 +1,48 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<ul class="nav navbar-nav">
+				<RouterLink to="/" location={{currentPath}} class="active" li>
+					<span class="glyphicon glyphicon-home"></span> Home
+				</RouterLink>
+				<RouterLink to="/about" location={{currentPath}} li>
+					<span class="glyphicon glyphicon-folder-open"></span> About
+				</RouterLink>
+				<RouterLink to="/employee" location={{currentPath}} li>
+					<span class="glyphicon glyphicon-th-list"></span> Employees
+                </RouterLink> 
+                <RouterLink to="/department" location={{currentPath}} li>
+					<span class="glyphicon glyphicon-th-list"></span> Departments
+				</RouterLink> 
+			</ul>
+		</div>
+		<div class="nav navbar-right">
+			<p class="navbar-text">
+				Logged in as Kiho Chang
+			</p>
+		</div>
+	</div>
+</nav>
+
+<script>
+    import RouterLink from './routerlink.html';
+    import roadtrip from 'roadtrip';
+
+    export default {
+        data () {
+            return {
+            currentPath: '',
+            }
+        },
+        components: {
+            RouterLink
+        },
+        oncreate () {
+            roadtrip.Routing.notify = routeData => {                
+                const path = routeData ? routeData.pathname : '';
+                this.set({currentPath: '/' + path});
+                console.log('NavMenu : routeData', routeData, path);
+            };
+        },
+    }
+</script> 

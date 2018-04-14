@@ -1,0 +1,81 @@
+<h1>Home</h1>
+
+<script>
+    import Requests from '../../utils/request';
+    import { allWithMapAsync } from '../../utils/async';
+
+    function getServeTime(component, foods, serveEvents) {
+        serveEvents.forEach(x => {
+            const food = foods.find(y => y.id == x.itemId);
+            if (food) {
+                food.serveTime = x.startTime;
+                food.endTime = x.endTime;
+                food.latestEventId = x.id;
+            }
+        })
+    }
+
+    async function getData() {
+        const serveEvents = Requests.get('/api/ServeEvent/GetLatestServe');
+        const foods = Requests.get('/api/FoodItem/GetActive');
+        return allWithMapAsync({foods, serveEvents});
+    }
+
+    export default {
+        data() {
+            return {
+                foods: [],
+                time: new Date()
+            };
+        },
+        components: {
+            
+        },
+		ondestroy () {
+            
+		},
+        oncreate () {
+            // this.refresh();
+            // this.interval = setInterval(() => this.updateTime(), 60 * 1000);    
+        },
+        methods: {
+            // refresh() {
+            //     getData().then(data => {
+            //         const { foods, serveEvents } = data;                    
+            //         getServeTime(this, foods, serveEvents);
+            //         this.set({ foods });
+            //         this.updateTime();
+            //         // setTimeout(() => this.updateTime(), 500);
+            //     });              
+            // },
+            // updateTime() {
+            //     this.set({ time: new Date() });
+            //     // console.log('updateTime', this.get('time'));
+            // },
+            // stop(item) {
+            //     const body = { ItemId: item.id }
+            //     Requests.put('/api/ServeEvent/id', body)
+            //         .then(data => {
+            //             this.refresh();
+            //         });
+            // },
+            // submit(evt, item) {
+            //     if (evt && evt.preventDefault) {
+            //         evt.preventDefault();
+            //     }
+            //     if (item.serveTime && !item.endTime) {
+            //         this.stop(item);
+            //         return;
+            //     }
+            //     const body = {
+            //         ItemId: item.id,
+            //         Name: item.name,
+            //     };
+            //     Requests.post('/api/ServeEvent', body)
+            //         .then(data => {
+            //             this.refresh();
+            //         });
+            // }
+        }
+    }    
+</script>

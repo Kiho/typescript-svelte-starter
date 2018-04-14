@@ -1,0 +1,57 @@
+{{#if li}}
+<li class="{{ calssName + ' ' + active }}">
+    <a href='{{basePath}}{{ to }}' on:click='navigate(event, to)'>
+        {{ yield }}
+    </a>
+</li>
+{{else}}
+<a href='{{basePath}}{{ to }}' class="{{ calssName + ' ' + active }}" on:click='navigate(event, to)'>
+    {{ yield }}
+</a>
+{{/if}}
+
+<script>
+    import roadtrip from 'roadtrip';
+
+    const activedClassName = 'router-link-active'
+    
+    export default {
+        data () {
+            return {
+                to: '/',
+                basePath: basePath,
+                active: '',
+                location: '',
+                calssName: '',
+                item: null
+            }
+        },
+        oncreate () {    
+            this.observe('location', location => {
+                // console.log(location);
+                this.setActivedClass(location);
+            });
+
+            //on:click="editFood(event, item)"
+        },
+        methods: {
+            navigate ($e, to) {
+                if ($e && $e.preventDefault) $e.preventDefault()
+                // console.log('roadtrip.RouteData', roadtrip.RouteData);
+                const {item} = this.get();
+                if (item) {
+                    this.fire('itemClick', event, item);
+                } else if (to) {            
+                    roadtrip.goto(basePath + to);
+                }
+            },
+            setActivedClass (location) {
+                if (location === this.get('to')) {
+                    this.set({ active: activedClassName })
+                } else {
+                    this.set({ active: '' })
+                }
+            }
+        }
+    }
+</script>

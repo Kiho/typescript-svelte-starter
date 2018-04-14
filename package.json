@@ -1,0 +1,40 @@
+{
+  "name": "typescript-svelte-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack && copyfiles ./index.html ./dist",
+    "build:min": "SET NODE_ENV=production&& npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack -w",
+    "serve:dev": "webpack-dev-server --hot --inline",
+    "dev": "cross-env NODE_ENV=development && npm run serve:dev",
+    "all": "concurrently \"npm run watch\"  \"npm run dev\" "
+  },
+  "keywords": [],
+  "author": {
+    "name": "Kiho Chang",
+    "url": "https://github.com/kiho"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/requirejs": "^2.1.28",
+    "concurrently": "^3.5.0",
+    "copyfiles": "^1.2.0",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.1",
+    "dateformat": "^3.0.3",
+    "live-server": "^1.2.0",
+    "loader-utils": "^1.1.0",
+    "roadtrip": "^0.6.1",
+    "svelte": "^1.60.3",
+    "svelte-loader": "^2.3.3",
+    "ts-loader": "^3.3.0",
+    "typescript": "^2.7.2",
+    "uglifyjs-webpack-plugin": "^1.1.5",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.0"
+  }
+}
