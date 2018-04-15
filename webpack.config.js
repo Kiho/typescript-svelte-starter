@@ -79,8 +79,8 @@ if (process.env.NODE_ENV === 'production') {
     watchOptions: {aggregateTimeout: 300, poll: 1000},
     contentBase: './dist',
     open: true,
-    // proxy: {
-    //     "/api/*": "http://127.0.0.1:3001"
-    // }
+    proxy: {
+        "/api/*": "http://127.0.0.1:5002"
+    }
   };
 }
