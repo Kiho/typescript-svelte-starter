@@ -1,9 +1,3 @@
-// import App from './App.html';
-
-// const app = new App({
-// 	target: document.querySelector('#app'),
-// });
-
 /*
  * This is the entrypoint of all the JavaScript files.
  */

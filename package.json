@@ -13,9 +13,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack -w",
     "serve:api": "node server/index.js",
-    "serve:dev": "webpack-dev-server --hot --inline",
-    "dev": "cross-env NODE_ENV=development && npm run serve:dev",
-    "all": "concurrently \"npm run watch\"  \"npm run dev\" "
+    "serve:dev": "webpack-dev-server --content-base dist --hot --inline",
+    "start:dev": "cross-env NODE_ENV=development && npm run serve:dev",
+    "dev": "concurrently \"npm run watch\"  \"npm run start:dev\" "
   },
   "keywords": [],
   "author": {
