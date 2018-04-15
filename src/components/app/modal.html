@@ -1,0 +1,81 @@
+<div class='modal-background' on:click='fire("close")'></div>
+
+<div class='modal-container modal-{{modalSize}}'>
+    <div class="modal-header">
+        <h2 class="modal-title">{{title}}</h2>
+    </div>
+    <div class="modal-body">
+		<div>
+			<slot></slot>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary pull-right" on:click='fire("close")'>Close</button>
+		<button type="button" class="btn btn-primary pull-right" on:click='fire("save")'>Save Changes</button>
+	</div>
+</div>
+
+<style>
+	.modal-footer {
+        padding: 10px 15px 0;
+    }
+	.modal-footer .btn-primary {
+        margin-right: 10px
+    }
+    .modal-header,
+	.modal-body {
+        padding: 15px 50px 15px 50px;
+    }
+	.modal-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.3);
+	}
+
+	.modal-container {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		overflow: auto;
+		transform: translate(-50%,-50%);
+		padding: 1em;
+        width: calc(100vw - 4em);
+        max-height: calc(100vh - 4em);
+		border-radius: 0.2em;
+		background: white;
+	}
+
+    .modal-small {
+		max-width: 32em;
+    }
+
+    .modal-default {
+		max-width: 48em;
+    }
+
+    .modal-large {
+		max-width: 64em;
+    }
+
+	button {
+		display: block;
+	}
+</style>
+
+<script>
+    // import Button from './Button.html';
+
+    export default {
+        data: () => ({
+            title: '',
+            modalSize: 'default',
+		}),
+
+		// components: {
+		// 	Button,
+		// }
+	};
+</script>

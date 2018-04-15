@@ -1,6 +1,146 @@
-<h1>Department</h1>
+<div class="container">
+    <h1>Departments</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <DataGrid bind:rows="list" bind:columns="columndata" edit={{false}} ></DataGrid>
+        </div>
+    </div>
+    <div>
+        {{#if showModal}}
+            <Modal on:close='set({ showModal: false })' on:save='saveDepartment(event, selectedItem)' title={{selectedItem.name}}>
+                <div class=form-group>
+                    <label for="txtName">Department</label>
+                </div>
+                <div class=form-group>
+                    <FormGrid columns={{fielddata}} bind:item="selectedItem" ref:form ></FormGrid> 
+                </div>                     
+            </Modal>
+        {{/if}}
+    </div>
+</div>
 
 <script>
-    import { FormGrid } from 'svelte-formgrid';
-    
+    import roadtrip from 'roadtrip';
+    import { FormGrid, DataGrid } from 'svelte-formgrid';
+    import Requests from '../../utils/request';
+    import Modal from '../app/modal.html';
+
+    async function getData() {
+        return Requests.get('/api/department');
+    }
+
+    const fielddata = [
+    {
+        label: 'ID', 
+        field: 'id',
+        component: 'text',
+        readOnly: true,
+        row: 0,
+        col: 'md-6'
+    }, {
+        label: 'Name',
+        field: 'name',
+        component: 'text',
+        required: true,
+        row: 1,
+        col: 'md-6'
+    }, {
+        label: 'Group Name',
+        field: 'groupName',
+        component: 'text',
+        row: 2,
+        col: 'md-6'
+    }];
+
+    const columndata = [...fielddata];
+
+    export default {
+        data() {
+            return {
+                list: [],
+                showModal: false,
+                addingDepartment: false,
+                newDepartmentName: '',
+                newDepartmentImage: '',
+                currentPath: '',
+                selectedItem: null,                
+                fielddata,
+                columndata,
+            };
+        },
+        components: {
+            Modal,
+            FormGrid, 
+            DataGrid
+        },
+        helpers: {
+            hiddenIfNot: x => x ? '' : 'hidden',
+            showNumber: x => x ? x : 0
+        },
+        oncreate () {
+            columndata.push({
+                label: 'Edit', 
+                field: 'field',
+                component: 'action',
+                'class': 'secondary',
+                action: (row) => {
+                    console.log('DataGrid - action', row);
+                    this.editDepartment(row);
+                }
+            });
+            this.getList();            
+        },
+        methods: {
+            getList() {
+                getData().then(data => {
+                    this.set({ list: data  });
+                });
+            },
+            submit(evt, name, image) {
+                // if (evt && evt.preventDefault) {
+                //     evt.preventDefault();
+                // }
+                // const body = {
+                //     Name: name,
+                //     Image: image,
+                // };
+                // Requests.post('/api/department', body)
+                //     .then(data => {
+                //         console.log(data);
+                //         this.set({ newDepartmentName: '' });
+                //         this.getList();
+                //     });
+            },
+            addDepartment(evt) {
+                if (evt && evt.preventDefault) {
+                    evt.preventDefault();
+                }
+                const { addingDepartment, newDepartmentName, newDepartmentImage } = this.get();
+                console.log('addDepartment', addingDepartment, newDepartmentName, newDepartmentImage)
+                if (addingDepartment && newDepartmentName) {
+                    this.submit(evt, newDepartmentName, newDepartmentImage);
+                } else if (!addingDepartment) {
+                    process.nextTick(() => this.refs.newDepartmentName.focus());
+                }
+
+                this.set({
+                    addingDepartment: !addingDepartment
+                });
+            },
+            editDepartment(item) {
+                this.set({ showModal: true, selectedItem: item });
+            },
+            saveDepartment(evt, item) {
+                // if (evt && evt.preventDefault) {
+                //     evt.preventDefault();
+                // }
+                // console.log('saveDepartment', item);
+                // Requests.put('/api/department/' + item.id, item)
+                //     .then(data => {                        
+                //         this.set({ showModal: false, selectedItem: null });
+                //         this.getList();
+                //     });
+            }
+        }
+    }    
 </script>
