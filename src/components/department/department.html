@@ -78,16 +78,18 @@
             showNumber: x => x ? x : 0
         },
         oncreate () {
-            columndata.push({
-                label: 'Edit', 
-                field: 'field',
-                component: 'action',
-                'class': 'secondary',
-                action: (row) => {
-                    console.log('DataGrid - action', row);
-                    this.editDepartment(row);
-                }
-            });
+            if(columndata.length == fielddata.length) {
+                columndata.push({
+                    label: 'Edit', 
+                    field: 'field',
+                    component: 'action',
+                    'class': 'secondary',
+                    action: (row) => {
+                        console.log('DataGrid - action', row);
+                        this.editDepartment(row);
+                    }
+                });
+            }
             this.getList();            
         },
         methods: {

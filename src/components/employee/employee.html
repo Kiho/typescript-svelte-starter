@@ -1,6 +1,162 @@
-<h1>Employee</h1>
+<div class="container">
+    <h1>Employee</h1>
+    <div class="row">
+        <div>
+            <DataGrid bind:rows="list" bind:columns="columndata" edit={{false}}></DataGrid>
+        </div>
+    </div>
+    <div>
+        {{#if showModal}}
+            <Modal on:close='set({ showModal: false })' on:save='saveEmployee(event, selectedItem)' title={{selectedItem.name}}>
+                <div class=form-group>
+                    <label for="txtName">Employee</label>
+                </div>
+                <div class=form-group>
+                    <FormGrid columns={{fielddata}} bind:item="selectedItem" ref:form ></FormGrid> 
+                </div>                     
+            </Modal>
+        {{/if}}
+    </div>
+</div>
 
 <script>
-    import { FormGrid } from 'svelte-formgrid';
-    
+    import roadtrip from 'roadtrip';
+    import { FormGrid, DataGrid } from 'svelte-formgrid';
+    import Requests from '../../utils/request';
+    import Modal from '../app/modal.html';
+
+    async function getData() {
+        return Requests.get('/api/employee');
+    }
+
+    const fielddata = [
+    {
+        label: 'ID', 
+        field: 'id',
+        component: 'text',
+        readOnly: true,
+        row: 0,
+        col: 'md-6'
+    }, {
+        label: 'Name',
+        field: 'name',
+        component: 'text',
+        required: true,
+        row: 1,
+        col: 'md-6'
+    }, {
+        label: 'Title',
+        field: 'title',
+        component: 'text',
+        required: true,
+        row: 1,
+        col: 'md-6'
+    }, {
+        label: 'Department',
+        field: 'departmentId',
+        component: 'text',
+        row: 2,
+        col: 'md-6'
+    }, {
+        label: 'Rate',
+        field: 'rate',
+        component: 'text',
+        required: true,
+        row: 1,
+        col: 'md-6'
+    }];
+
+    const columndata = [...fielddata];
+
+    export default {
+        data() {
+            return {
+                list: [],
+                showModal: false,
+                addingEmployee: false,
+                newEmployeeName: '',
+                newEmployeeImage: '',
+                currentPath: '',
+                selectedItem: null,                
+                fielddata,
+                columndata,
+            };
+        },
+        components: {
+            Modal,
+            FormGrid, 
+            DataGrid
+        },
+        helpers: {
+            hiddenIfNot: x => x ? '' : 'hidden',
+            showNumber: x => x ? x : 0
+        },
+        oncreate () {
+            if(columndata.length == fielddata.length) {
+                columndata.push({
+                    label: 'Edit', 
+                    field: 'field',
+                    component: 'action',
+                    'class': 'secondary',
+                    action: (row) => {
+                        console.log('DataGrid - action', row);
+                        this.editEmployee(row);
+                    }
+                });
+            }
+            this.getList();            
+        },
+        methods: {
+            getList() {
+                getData().then(data => {
+                    this.set({ list: data  });
+                });
+            },
+            submit(evt, name, image) {
+                // if (evt && evt.preventDefault) {
+                //     evt.preventDefault();
+                // }
+                // const body = {
+                //     Name: name,
+                //     Image: image,
+                // };
+                // Requests.post('/api/department', body)
+                //     .then(data => {
+                //         console.log(data);
+                //         this.set({ newEmployeeName: '' });
+                //         this.getList();
+                //     });
+            },
+            addEmployee(evt) {
+                if (evt && evt.preventDefault) {
+                    evt.preventDefault();
+                }
+                const { addingEmployee, newEmployeeName, newEmployeeImage } = this.get();
+                console.log('addEmployee', addingEmployee, newEmployeeName, newEmployeeImage)
+                if (addingEmployee && newEmployeeName) {
+                    this.submit(evt, newEmployeeName, newEmployeeImage);
+                } else if (!addingEmployee) {
+                    process.nextTick(() => this.refs.newEmployeeName.focus());
+                }
+
+                this.set({
+                    addingEmployee: !addingEmployee
+                });
+            },
+            editEmployee(item) {
+                this.set({ showModal: true, selectedItem: item });
+            },
+            saveDepartment(evt, item) {
+                // if (evt && evt.preventDefault) {
+                //     evt.preventDefault();
+                // }
+                // console.log('saveDepartment', item);
+                // Requests.put('/api/department/' + item.id, item)
+                //     .then(data => {                        
+                //         this.set({ showModal: false, selectedItem: null });
+                //         this.getList();
+                //     });
+            }
+        }
+    }
 </script>
