@@ -36,7 +36,7 @@
     "rimraf": "^2.6.2",
     "roadtrip": "^0.6.1",
     "svelte": "1.60.3",
-    "svelte-formgrid": "file:../svelte-formgrid",
+    "svelte-formgrid": "git://github.com/Kiho/svelte-formgrid#lib",
     "svelte-loader": "^2.8.1",
     "ts-loader": "^3.2.0",
     "typescript": "^2.8.1",
