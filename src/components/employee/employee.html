@@ -24,10 +24,9 @@
     import { FormGrid, DataGrid } from 'svelte-formgrid';
     import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
+    import AppService from '../../services/appService';
 
-    async function getData() {
-        return Requests.get('/api/employee');
-    }
+    const path = 'employee';
 
     const fielddata = [
     {
@@ -108,24 +107,9 @@
         },
         methods: {
             getList() {
-                getData().then(data => {
+                AppService.getList(path).then(data => {
                     this.set({ list: data  });
                 });
-            },
-            submit(evt, name, image) {
-                // if (evt && evt.preventDefault) {
-                //     evt.preventDefault();
-                // }
-                // const body = {
-                //     Name: name,
-                //     Image: image,
-                // };
-                // Requests.post('/api/department', body)
-                //     .then(data => {
-                //         console.log(data);
-                //         this.set({ newEmployeeName: '' });
-                //         this.getList();
-                //     });
             },
             addEmployee(evt) {
                 if (evt && evt.preventDefault) {
@@ -147,15 +131,11 @@
                 this.set({ showModal: true, selectedItem: item });
             },
             saveEmployee(evt, item) {
-                // if (evt && evt.preventDefault) {
-                //     evt.preventDefault();
-                // }
-                // console.log('saveDepartment', item);
-                // Requests.put('/api/department/' + item.id, item)
-                //     .then(data => {                        
-                //         this.set({ showModal: false, selectedItem: null });
-                //         this.getList();
-                //     });
+                const fnSave = data => {                        
+                    this.set({ showModal: false, selectedItem: null });
+                    this.getList();
+                };
+                AppService.save(evt, path, item, fnSave);
             }
         }
     }
