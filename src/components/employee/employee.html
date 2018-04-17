@@ -49,20 +49,20 @@
         field: 'title',
         component: 'text',
         required: true,
-        row: 1,
+        row: 2,
         col: 'md-6'
     }, {
         label: 'Department',
         field: 'departmentId',
         component: 'text',
-        row: 2,
+        row: 3,
         col: 'md-6'
     }, {
         label: 'Rate',
         field: 'rate',
         component: 'text',
         required: true,
-        row: 1,
+        row: 4,
         col: 'md-6'
     }];
 
@@ -146,7 +146,7 @@
             editEmployee(item) {
                 this.set({ showModal: true, selectedItem: item });
             },
-            saveDepartment(evt, item) {
+            saveEmployee(evt, item) {
                 // if (evt && evt.preventDefault) {
                 //     evt.preventDefault();
                 // }

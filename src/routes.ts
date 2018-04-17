@@ -2,9 +2,6 @@ import roadtrip from 'roadtrip';
 import IndexHandler from './index.handler';
 
 import Home from './components/home/home.html';
-// import FoodMenu from './components/about/about.html';
-// import employee from './components/employee/employee.html';
-// import Report from './components/department/department.html';
 
 declare var basePath;
 
