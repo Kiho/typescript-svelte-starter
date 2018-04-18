@@ -15,7 +15,7 @@
     "serve:api": "node server/index.js",
     "serve:dev": "webpack-dev-server --content-base dist --hot --inline",
     "start:dev": "cross-env NODE_ENV=development && npm run serve:dev",
-    "dev": "concurrently \"npm run watch\"  \"npm run start:dev\" "
+    "dev": "concurrently \"npm run watch\"  \"npm run start:dev\" \"npm run serve:api\""
   },
   "keywords": [],
   "author": {
