@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(config.assetsPublicPath, express.static(path.join(__dirname, 'public')));
+// app.use(config.assetsPublicPath, express.static(path.join(__dirname, 'public')));
 
 var api = require('./api/routes');
 app.use('/api/', api);
