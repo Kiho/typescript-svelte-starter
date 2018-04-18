@@ -66,12 +66,15 @@
     }];
 
     const columndata = fielddata.map(x => Object.assign({}, x));
-    columndata.push({
+    const actionColumn = {
         label: 'Edit', 
         field: 'field',
         component: 'action',
         'class': 'secondary',        
-    });
+    } 
+    columndata.push(actionColumn);
+    const departmentColumn = columndata.find(x => x.field == 'departmentId');
+    departmentColumn.component = '';
     
     export default {
         data() {
@@ -94,21 +97,14 @@
             hiddenIfNot: x => x ? '' : 'hidden',
             showNumber: x => x ? x : 0
         },
-        oncreate () {
-            const actionColumn = columndata[columndata.length - 1];            
-            actionColumn.action = (row) => {
-                console.log('DataGrid - action', row);
-                this.editEmployee(row);
-            }
-            const departmentColumn = columndata.find(x => x.field == 'departmentId');
-            departmentColumn.component = '';
+        oncreate () {           
+            actionColumn.action = (row) => this.editEmployee(row);
             departmentColumn.field = (data) => {
                 const { departmentList } = this.get();
                 const found = departmentList.find(x => x.id == data.departmentId);
                 return found ? found.name : '';
             }
-            this.getList();
-            this.set({ columndata });            
+            this.getList();           
         },
         methods: {
             getList() {
