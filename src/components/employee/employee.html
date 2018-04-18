@@ -7,7 +7,7 @@
     </div>
     <div>
         {{#if showModal}}
-            <Modal on:close='set({ showModal: false })' on:save='saveEmployee(event, selectedItem)' title={{selectedItem.name}}>
+            <Modal on:close='close()' on:save='saveEmployee(event, selectedItem)' title={{selectedItem.name}}>
                 <div class=form-group>
                     <label for="txtName">Employee</label>
                 </div>
@@ -66,6 +66,12 @@
     }];
 
     const columndata = [...fielddata];
+    columndata.push({
+        label: 'Edit', 
+        field: 'field',
+        component: 'action',
+        'class': 'secondary',        
+    });
 
     export default {
         data() {
@@ -91,17 +97,10 @@
             showNumber: x => x ? x : 0
         },
         oncreate () {
-            if(columndata.length == fielddata.length) {
-                columndata.push({
-                    label: 'Edit', 
-                    field: 'field',
-                    component: 'action',
-                    'class': 'secondary',
-                    action: (row) => {
-                        console.log('DataGrid - action', row);
-                        this.editEmployee(row);
-                    }
-                });
+            const actionColumn = columndata[columndata.length - 1];
+            actionColumn.action = (row) => {
+                console.log('DataGrid - action', row);
+                this.editEmployee(row);
             }
             this.getList();            
         },
@@ -112,30 +111,21 @@
                 });
             },
             addEmployee(evt) {
-                if (evt && evt.preventDefault) {
-                    evt.preventDefault();
-                }
-                const { addingEmployee, newEmployeeName, newEmployeeImage } = this.get();
-                console.log('addEmployee', addingEmployee, newEmployeeName, newEmployeeImage)
-                if (addingEmployee && newEmployeeName) {
-                    this.submit(evt, newEmployeeName, newEmployeeImage);
-                } else if (!addingEmployee) {
-                    process.nextTick(() => this.refs.newEmployeeName.focus());
-                }
-
-                this.set({
-                    addingEmployee: !addingEmployee
-                });
+                evt && evt.preventDefault();
+                this.set({ showModal: true, selectedItem: {} });
             },
             editEmployee(item) {
                 this.set({ showModal: true, selectedItem: item });
             },
             saveEmployee(evt, item) {
                 const fnSave = data => {                        
-                    this.set({ showModal: false, selectedItem: null });
+                    this.close();
                     this.getList();
                 };
-                AppService.save(evt, path, item, fnSave);
+                AppService.save(evt, path, item, this.refs.form.refs.form, fnSave);
+            },
+            close() {
+                this.set({ showModal: false, selectedItem: null });
             }
         }
     }

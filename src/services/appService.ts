@@ -6,12 +6,19 @@ export default class AppService {
         return Requests.get(`api/${path}`);
     }
 
-    static async save(evt, path: string, item, fnSave) {
+    static async save(evt, path: string, item, form, fnSave) {
         if (evt && evt.preventDefault) {
             evt.preventDefault();
         }
         console.log('save', item);
-        Requests.put(`api/${path}`, item).then(fnSave);
+        if (!AppService.validateForm(form)) {
+            return;
+        }
+        if (item.id) {
+            Requests.put(`api/${path}`, item).then(fnSave);
+        } else {
+            Requests.post(`api/${path}`, item).then(fnSave);
+        }        
     }
 
     static validateForm(form) {
