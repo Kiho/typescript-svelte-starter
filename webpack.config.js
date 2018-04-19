@@ -2,14 +2,18 @@ var path = require('path');
 var webpack = require('webpack');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-const isDevBuild = true;
+const isDevBuild = process.env.NODE_ENV !== 'production';
+console.log('ENV', process.env.NODE_ENV);
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    'main': './src/index.ts',
+    'formgrid': 'svelte-formgrid',
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'bundle.js'
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -36,37 +40,29 @@ module.exports = {
   performance: {
     hints: false
   },
-  plugins: [
-    new webpack.WatchIgnorePlugin([
-      /\.js$/,
-      /\.d\.ts$/
-    ])
-  ],
-  // watchOptions: {
-  //   ignored: 'src/**/*.d.ts'
-  // },
-  devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+if (!isDevBuild) {
+  // module.exports.devtool = '#source-map'
   module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "formgrid",
+      minChunks: Infinity,
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
       }
     }),
     new UglifyJSPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
+      // sourceMap: true,
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
   ])
 } else {
+  devtool: '#eval-source-map'
   module.exports.devServer = {
     port: 8098,
     host: "localhost",
@@ -76,7 +72,7 @@ if (process.env.NODE_ENV === 'production') {
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
         "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    watchOptions: {aggregateTimeout: 300, poll: 1000},
+    // watchOptions: {aggregateTimeout: 300, poll: 1000},
     // contentBase: './dist',
     open: true,
     proxy: {
