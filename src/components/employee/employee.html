@@ -3,12 +3,12 @@
     <div class="row">
         <div>
             <DataGrid bind:rows="list" bind:columns="columndata" edit={{false}}></DataGrid>
-            <button type="button" class="btn btn-primary" on:click='addEmployee(event)'>Add New Department</button>
+            <button type="button" class="btn btn-primary" on:click='addEmployee(event)'>Add New Employee</button>
         </div>
     </div>
     <div>
         {{#if showModal}}
-            <Modal on:close='close()' on:save='saveEmployee(event, selectedItem)' title={{selectedItem.name}}>
+            <Modal on:close='close()' on:save='saveEmployee(selectedItem, event)' title={{selectedItem.name}}>
                 <div class=form-group>
                     <label for="txtName">Employee</label>
                 </div>
@@ -21,84 +21,28 @@
 </div>
 
 <script>
-    import roadtrip from 'roadtrip';
     import { FormGrid, DataGrid } from 'svelte-formgrid';
     import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
     import AppService from '../../services/appService';
+    import appPage from '../../services/appPage';
+    import { initialData, columndata, actionColumn, employee } from './employee';
 
-    const path = 'employee';
-
-    const fielddata = [
-    {
-        label: 'ID', 
-        field: 'id',
-        component: 'text',
-        readOnly: true,
-        row: 0,
-        col: 'md-6'
-    }, {
-        label: 'Name',
-        field: 'name',
-        component: 'text',
-        required: true,
-        row: 1,
-        col: 'md-6'
-    }, {
-        label: 'Title',
-        field: 'title',
-        component: 'text',
-        required: true,
-        row: 2,
-        col: 'md-6'
-    }, {
-        label: 'Department',
-        field: 'departmentId',
-        component: 'text',
-        row: 3,
-        col: 'md-6'
-    }, {
-        label: 'Rate',
-        field: 'rate',
-        component: 'text',
-        required: true,
-        row: 4,
-        col: 'md-6'
-    }];
-
-    const columndata = fielddata.map(x => Object.assign({}, x));
-    const actionColumn = {
-        label: 'Edit', 
-        field: 'field',
-        component: 'action',
-        'class': 'secondary',        
-    } 
-    columndata.push(actionColumn);
     const departmentColumn = columndata.find(x => x.field == 'departmentId');
     departmentColumn.component = '';
     
+    const app = Object.assign({}, appPage);
     export default {
         data() {
-            return {
-                list: [],
-                departmentList: [],
-                showModal: false,
-                currentPath: '',
-                selectedItem: null,                
-                fielddata,
-                columndata,
-            };
+            return Object.assign({}, initialData);
         },
         components: {
             Modal,
             FormGrid, 
             DataGrid
         },
-        helpers: {
-            hiddenIfNot: x => x ? '' : 'hidden',
-            showNumber: x => x ? x : 0
-        },
         oncreate () {           
+            app.oncreate(this, employee);
             actionColumn.action = (row) => this.editEmployee(row);
             departmentColumn.field = (data) => {
                 const { departmentList } = this.get();
@@ -108,31 +52,11 @@
             this.getList();           
         },
         methods: {
-            getList() {
-                AppService.getList('department').then(depts =>{
-                    this.set({ departmentList: depts });
-                    AppService.getList(path).then(data => {
-                        this.set({ list: data  });
-                    });
-                })                
-            },
-            addEmployee(evt) {
-                evt && evt.preventDefault();
-                this.set({ showModal: true, selectedItem: {} });
-            },
-            editEmployee(item) {
-                this.set({ showModal: true, selectedItem: item });
-            },
-            saveEmployee(evt, item) {
-                const fnSave = data => {                        
-                    this.close();
-                    this.getList();
-                };
-                AppService.save(evt, path, item, this.refs.form.refs.form, fnSave);
-            },
-            close() {
-                this.set({ showModal: false, selectedItem: null });
-            }
+            getList: employee.getList,
+            addEmployee: app.add,
+            editEmployee: app.edit,
+            saveEmployee: app.save,
+            close: app.close
         }
     }
 </script>

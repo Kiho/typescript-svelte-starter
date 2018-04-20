@@ -24,13 +24,13 @@ export const fielddata: IField[] = [
 }];
 
 export const columndata: IColumn[] = fielddata.map(x => Object.assign({}, x));
-
-columndata.push({
+export const actionColumn = {
     label: 'Edit', 
     field: 'field',
     component: 'action',
     className: 'secondary',
-});
+} 
+columndata.push(actionColumn);
 
 const initialData = {
     list: [],

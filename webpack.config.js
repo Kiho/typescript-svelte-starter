@@ -40,6 +40,7 @@ module.exports = {
   performance: {
     hints: false
   },
+  devtool: '#eval-source-map'
 }
 
 if (!isDevBuild) {
@@ -62,7 +63,6 @@ if (!isDevBuild) {
     })
   ])
 } else {
-  devtool: '#eval-source-map'
   module.exports.devServer = {
     port: 8098,
     host: "localhost",

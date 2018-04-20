@@ -1,11 +1,9 @@
 import Requests from '../utils/request';
 import AppService from './appService';
 
-// const path = 'department';
-
 export default {
-    oncreate (p) {
-        Object.assign(this, p);          
+    oncreate (p, o?) {
+        Object.assign(this, p, o);      
     },
 
     getList(this: IAppPage) {
