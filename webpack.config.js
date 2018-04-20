@@ -43,7 +43,7 @@ module.exports = {
 }
 
 if (!isDevBuild) {
-  // module.exports.devtool = '#source-map'
+  module.exports.devtool = '#source-map'
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.optimize.CommonsChunkPlugin({
       name: "formgrid",

@@ -22,4 +22,10 @@ declare class Svelte {
     ondestroy(): void;
 
     destroy(): void;
+
+    refs: RefCollection;
+}
+
+interface RefCollection {
+    [name: string]: { refs: any };
 }

@@ -8,7 +8,7 @@
     </div>
     <div>
         {{#if showModal}}
-            <Modal on:close='close()' on:save='saveDepartment(event, selectedItem)' title={{selectedItem.name}}>
+            <Modal on:close='close()' on:save='saveDepartment(selectedItem, event)' title={{selectedItem.name}}>
                 <div class=form-group>
                     <label for="txtName">Department</label>
                 </div>
@@ -21,60 +21,15 @@
 </div>
 
 <script>
-    import roadtrip from 'roadtrip';
     import { FormGrid, DataGrid } from 'svelte-formgrid';
     import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
-    import AppService from '../../services/appService';
+    import appPage from '../../services/appPage';
+    import { initialData, columndata } from './department';
 
-    async function getData() {
-        return Requests.get('/api/department');
-    }
-
-    const fielddata = [
-    {
-        label: 'ID', 
-        field: 'id',
-        component: 'text',
-        readOnly: true,
-        row: 0,
-        col: 'md-6'
-    }, {
-        label: 'Name',
-        field: 'name',
-        component: 'text',
-        required: true,
-        row: 1,
-        col: 'md-6'
-    }, {
-        label: 'Group Name',
-        field: 'groupName',
-        component: 'text',
-        row: 2,
-        col: 'md-6'
-    }];
-
-    const columndata = [...fielddata];
-    columndata.push({
-        label: 'Edit', 
-        field: 'field',
-        component: 'action',
-        'class': 'secondary',
-    });
-    
     export default {
         data() {
-            return {
-                list: [],
-                showModal: false,
-                addingDepartment: false,
-                newDepartmentName: '',
-                newDepartmentImage: '',
-                currentPath: '',
-                selectedItem: null,                
-                fielddata,
-                columndata,
-            };
+            return Object.assign({}, initialData);
         },
         components: {
             Modal,
@@ -82,32 +37,16 @@
             DataGrid
         },
         oncreate () {
+            appPage.oncreate(this, 'department');
             columndata[columndata.length - 1].action = (row) => this.editDepartment(row);
             this.getList();            
         },
         methods: {
-            getList() {
-                getData().then(data => {
-                    this.set({ list: data  });
-                });
-            },
-            addDepartment(evt) {
-                evt && evt.preventDefault();
-                this.set({ showModal: true, selectedItem: {} });
-            },
-            editDepartment(item) {
-                this.set({ showModal: true, selectedItem: item });
-            },
-            saveDepartment(evt, item) {
-                const fnSave = (data) => {
-                    this.close();
-                    this.getList();
-                }
-                AppService.save(evt, 'department', item, this.refs.form.refs.form, fnSave);
-            },
-            close() {
-                this.set({ showModal: false, selectedItem: null });
-            }
+            getList: appPage.getList,
+            addDepartment: appPage.add,
+            editDepartment: appPage.edit,
+            saveDepartment: appPage.save,
+            close: appPage.close
         }
     }    
 </script>
