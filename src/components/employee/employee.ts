@@ -40,7 +40,7 @@ export const fielddata: IField[] = [
 }];
 
 export const columndata: IColumn[] = fielddata.map(x => Object.assign({}, x));
-export const actionColumn = {
+export const actionColumn: IColumn = {
     label: 'Edit', 
     field: 'field',
     component: 'action',
@@ -58,12 +58,20 @@ const initialData = {
 };
 
 const departmentField = fielddata.find(x => x.field == 'departmentId');
+const departmentColumn = columndata.find(x => x.field == 'departmentId');
+departmentColumn.component = '';
 
 const employee = {
-    oncreate (p) {
-        Object.assign(this, p);      
+    oncreate (p) {           
+        actionColumn.action = (row) => p.editEmployee(row);
+        departmentColumn.field = (data) => {
+            const { departmentList } = p.get();
+            const found = departmentList.find(x => x.id == data.departmentId);
+            return found ? found.name : '';
+        }
+        p.getList();           
     },
-
+    
     getList(this: IAppPage) {
         AppService.getList('department').then((depts: any[]) =>{
             this.set({ departmentList: depts });

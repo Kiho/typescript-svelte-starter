@@ -25,7 +25,7 @@
     import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
     import appPage from '../../services/appPage';
-    import { initialData, columndata, actionColumn } from './department';
+    import { initialData, department } from './department';
 
     const app = Object.assign({}, appPage);
     export default {
@@ -38,9 +38,8 @@
             DataGrid
         },
         oncreate () {
-            app.oncreate(this);
-            actionColumn.action = (row) => this.editDepartment(row);
-            this.getList();            
+            app.oncreate(this, department);
+            department.oncreate(this);          
         },
         methods: {
             getList: app.getList,

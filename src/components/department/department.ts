@@ -1,4 +1,8 @@
+import AppService from '../../services/appService';
+import appPage from '../../services/appPage';
+
 const path = 'department';
+const app = Object.assign({}, appPage);
 
 export const fielddata: IField[] = [
 {
@@ -24,7 +28,7 @@ export const fielddata: IField[] = [
 }];
 
 export const columndata: IColumn[] = fielddata.map(x => Object.assign({}, x));
-export const actionColumn = {
+export const actionColumn: IColumn = {
     label: 'Edit', 
     field: 'field',
     component: 'action',
@@ -41,4 +45,14 @@ const initialData = {
     columndata,
 };
 
-export { initialData }
+const department = {
+    oncreate (p) {
+        actionColumn.action = (row) => p.editDepartment(row);
+        p.getList();
+        // app.oncreate(p, this);
+        // actionColumn.action = (row) => p.edit(p, row);
+        // p.getList();    
+    },
+}
+
+export { initialData, department }

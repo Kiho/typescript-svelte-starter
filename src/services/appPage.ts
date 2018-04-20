@@ -13,17 +13,17 @@ export default {
         });
     },
 
-    add(this: IAppPage, evt) {
+    add(this: IAppPage, evt?) {
         evt && evt.preventDefault();
         this.set({ showModal: true, selectedItem: {} });
     },
 
-    edit(this: IAppPage, item, evt) {
+    edit(this: IAppPage, item, evt?) {
         evt && evt.preventDefault();
         this.set({ showModal: true, selectedItem: item });
     },
 
-    save(this: IAppPage, item, evt) {
+    save(this: IAppPage, item, evt?) {
         evt && evt.preventDefault();
         const fnSave = (data) => {
             this.close();

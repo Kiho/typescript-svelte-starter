@@ -25,10 +25,7 @@
     import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
     import appPage from '../../services/appPage';
-    import { initialData, columndata, actionColumn, employee } from './employee';
-
-    const departmentColumn = columndata.find(x => x.field == 'departmentId');
-    departmentColumn.component = '';
+    import { initialData, employee } from './employee';
     
     const app = Object.assign({}, appPage);
     export default {
@@ -42,13 +39,7 @@
         },
         oncreate () {           
             app.oncreate(this, employee);
-            actionColumn.action = (row) => this.editEmployee(row);
-            departmentColumn.field = (data) => {
-                const { departmentList } = this.get();
-                const found = departmentList.find(x => x.id == data.departmentId);
-                return found ? found.name : '';
-            }
-            this.getList();           
+            employee.oncreate(this);         
         },
         methods: {
             getList: employee.getList,
