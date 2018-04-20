@@ -17,7 +17,10 @@
     "start:dev": "cross-env NODE_ENV=development && npm run serve:dev",
     "dev": "concurrently \"npm run watch\"  \"npm run start:dev\" \"npm run serve:api\""
   },
-  "keywords": [],
+  "keywords": [
+    "svelte",
+    "typescript"
+  ],
   "author": {
     "name": "Kiho Chang",
     "url": "https://github.com/kiho"
