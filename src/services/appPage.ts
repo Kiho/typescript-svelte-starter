@@ -3,7 +3,7 @@ import AppService from './appService';
 
 export default {
     oncreate (p, o?) {
-        Object.assign(this, p, o);      
+        return Object.assign(p, this, o);   
     },
 
     getList(this: IAppPage) {

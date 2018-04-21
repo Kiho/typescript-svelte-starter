@@ -38,8 +38,8 @@
             DataGrid
         },
         oncreate () {
-            app.oncreate(this, department);
-            department.oncreate(this);          
+            const p = app.oncreate(this, department);
+            employee.oncreate(p);          
         },
         methods: {
             getList: app.getList,
