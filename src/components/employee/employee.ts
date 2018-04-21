@@ -62,13 +62,8 @@ const departmentColumn = columndata.find(x => x.field == 'departmentId');
 departmentColumn.component = '';
 
 const employee = {
-    oncreate (p) {           
+    oncreate (p) {          
         actionColumn.action = (row) => p.editEmployee(row);
-        departmentColumn.field = (data) => {
-            const { departmentList } = p.get();
-            const found = departmentList.find(x => x.id == data.departmentId);
-            return found ? found.name : '';
-        }
         p.getList();           
     },
     
@@ -76,6 +71,11 @@ const employee = {
         AppService.getList('department').then((depts: any[]) =>{
             this.set({ departmentList: depts });
             departmentField.optionList = depts;
+            departmentColumn.field = (data) => {
+                const { departmentList } = this.get();
+                const found = departmentList.find(x => x.id == data.departmentId);
+                return found ? found.name : '';
+            }
             AppService.getList(path).then(data => {
                 this.set({ list: data });
             });
