@@ -22,7 +22,6 @@
 
 <script>
     import { FormGrid, DataGrid } from 'svelte-formgrid';
-    import Requests from '../../utils/request';
     import Modal from '../app/modal.html';
     import appPage from '../../services/appPage';
     import { initialData, department } from './department';
@@ -39,7 +38,7 @@
         },
         oncreate () {
             const p = app.oncreate(this, department);
-            employee.oncreate(p);          
+            department.oncreate(p);          
         },
         methods: {
             getList: app.getList,
