@@ -10,7 +10,7 @@
         {{#if showModal}}
             <Modal on:close='close()' on:save='saveEmployee(selectedItem, event)' title={{selectedItem.name}}>
                 <div class=form-group>
-                    <label for="txtName">Employee</label>
+                    <label>Employee</label>
                 </div>
                 <div class=form-group>
                     <FormGrid columns={{fielddata}} bind:item="selectedItem" ref:form ></FormGrid> 

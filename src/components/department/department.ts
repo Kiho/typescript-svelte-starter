@@ -48,10 +48,7 @@ const initialData = {
 const department = {
     oncreate (p) {
         actionColumn.action = (row) => p.editDepartment(row);
-        p.getList();
-        // app.oncreate(p, this);
-        // actionColumn.action = (row) => p.edit(p, row);
-        // p.getList();    
+        p.getList();    
     },
 }
 
