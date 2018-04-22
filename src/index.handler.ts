@@ -15,7 +15,6 @@ export default class IndexHandler {
             template: await import(`./components/app/page.html`),
             data: await import(`./components/${pathname}/${pathname}`),
         }
-        modules.data = await import(`./components/${pathname}/${pathname}`);
         return allWithMapAsync(modules);
     }
 
@@ -38,7 +37,7 @@ export default class IndexHandler {
             beforeenter: this.beforeenter,
             enter: (current, previous) => {
                 if (current.data) {
-                    let options: any = { target: this.target };
+                    const options: any = { target: this.target };
                     if (current.data.data) {
                         Object.assign(                            
                             options, 
