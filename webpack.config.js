@@ -40,14 +40,15 @@ module.exports = {
   performance: {
     hints: false
   },
+  devtool: '#eval-source-map',
   plugins: [
-    new webpack.optimize.SplitChunksPlugin({
-      name: "formgrid",
-      minChunks: Infinity,
-    }),
     new webpack.SourceMapDevToolPlugin({
       filename: '[file].map', // Remove this line if you prefer inline source maps
       moduleFilenameTemplate: path.relative('./dist', '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+    }),
+    new webpack.optimize.SplitChunksPlugin({
+      name: "formgrid",
+      minChunks: Infinity,
     }),
   ]
 }
