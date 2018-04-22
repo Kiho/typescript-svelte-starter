@@ -30,7 +30,7 @@ module.exports = {
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
-        options: {name: '[name].[ext]?[hash]' }
+        options: { name: '[name].[ext]?[hash]' }
       },
     ]
   },
@@ -40,17 +40,20 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map',
   plugins: [
     new webpack.optimize.SplitChunksPlugin({
       name: "formgrid",
       minChunks: Infinity,
     }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[file].map', // Remove this line if you prefer inline source maps
+      moduleFilenameTemplate: path.relative('./dist', '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+    }),
   ]
 }
 
 if (!isDevBuild) {
-  module.exports.devtool = '#source-map'
+  // module.exports.devtool = '#source-map'
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
