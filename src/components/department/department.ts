@@ -1,8 +1,7 @@
 import AppService from '../../services/appService';
-import appPage from '../../services/appPage';
 
 const path = 'department';
-const app = Object.assign({}, appPage);
+const title = 'Departments';
 
 export const fielddata: IField[] = [
 {
@@ -40,14 +39,15 @@ const initialData = {
     list: [],
     showModal: false,
     selectedItem: null,
-    path,              
+    path,
+    title,
     fielddata,
     columndata,
 };
 
 const department = {
     oncreate (p) {
-        actionColumn.action = (row) => p.editDepartment(row);
+        actionColumn.action = (row) => p.edit(row);
         p.getList();    
     },
 }

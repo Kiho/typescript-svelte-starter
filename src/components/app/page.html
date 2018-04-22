@@ -1,17 +1,14 @@
 <div class="container">
-    <h1>Departments</h1>
+    <h1>{{title}}</h1>
     <div class="row">
         <div class="col-md-12">
             <DataGrid bind:rows="list" bind:columns="columndata" edit={{false}} ></DataGrid>
-            <button type="button" class="btn btn-primary" on:click='addDepartment(event)'>Add New Department</button>
+            <button type="button" class="btn btn-primary" on:click='add(event)'>Add New</button>
         </div>
     </div>
     <div>
         {{#if showModal}}
-            <Modal on:close='close()' on:save='saveDepartment(selectedItem, event)' title={{selectedItem.name}}>
-                <div class=form-group>
-                    <label>Department</label>
-                </div>
+            <Modal on:close='close()' on:save='save(selectedItem, event)' title={{selectedItem.name}}>
                 <div class=form-group>
                     <FormGrid columns={{fielddata}} bind:item="selectedItem" ref:form ></FormGrid> 
                 </div>                     
@@ -24,12 +21,20 @@
     import { FormGrid, DataGrid } from 'svelte-formgrid';
     import Modal from '../app/modal.html';
     import appPage from '../../services/appPage';
-    import { initialData, department } from './department';
 
     const app = Object.assign({}, appPage);
+
     export default {
         data() {
-            return Object.assign({}, initialData);
+            return {
+                list: [],
+                showModal: false,
+                selectedItem: null,
+                path: '',
+                title: '',             
+                fielddata: [],
+                columndata: [],
+            };
         },
         components: {
             Modal,
@@ -37,14 +42,16 @@
             DataGrid
         },
         oncreate () {
-            const p = app.oncreate(this, department);
-            department.oncreate(p);          
+            const { partial, initialData } = this.options;
+            const p = app.oncreate(this, partial);
+            this.set(initialData);
+            partial.oncreate(p);          
         },
         methods: {
             getList: app.getList,
-            addDepartment: app.add,
-            editDepartment: app.edit,
-            saveDepartment: app.save,
+            add: app.add,
+            edit: app.edit,
+            save: app.save,
             close: app.close
         }
     }    

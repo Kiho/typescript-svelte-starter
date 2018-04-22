@@ -1,6 +1,7 @@
 import AppService from '../../services/appService';
 
 const path = 'employee';
+const title = 'Employees';
 
 export const fielddata: IField[] = [
 {
@@ -33,7 +34,7 @@ export const fielddata: IField[] = [
 }, {
     label: 'Rate',
     field: 'rate',
-    component: 'text',
+    component: 'currency',
     required: true,
     row: 4,
     col: 'md-6'
@@ -52,7 +53,8 @@ const initialData = {
     list: [],
     showModal: false,
     selectedItem: null,
-    path,              
+    path, 
+    title,             
     fielddata,
     columndata,
 };
@@ -63,7 +65,7 @@ departmentColumn.component = '';
 
 const employee = {
     oncreate (p) {          
-        actionColumn.action = (row) => p.editEmployee(row);
+        actionColumn.action = (row) => p.edit(row);
         p.getList();           
     },
     
