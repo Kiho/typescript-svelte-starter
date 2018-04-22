@@ -13,10 +13,9 @@ export default class IndexHandler {
     protected async importModules(pathname) {
         const modules: any = {
             template: await import(`./components/app/page.html`),
+            data: await import(`./components/${pathname}/${pathname}`),
         }
-        if (pathname != 'about') {
-            modules.data = await import(`./components/${pathname}/${pathname}`);
-        }
+        modules.data = await import(`./components/${pathname}/${pathname}`);
         return allWithMapAsync(modules);
     }
 
@@ -26,8 +25,11 @@ export default class IndexHandler {
                 target: this.target,
             });
         } else {
-            current.data = await this.importModules(current.pathname);
-            // current.data = await import(`./components/${current.pathname}/${current.pathname}.html`);          
+            if (current.pathname === 'about') {
+                current.data = { template: await import(`./components/${current.pathname}/${current.pathname}.html`) }; 
+            } else {
+                current.data = await this.importModules(current.pathname);
+            }                     
         }
     }
 
@@ -43,8 +45,8 @@ export default class IndexHandler {
                             { initialData: current.data.data.initialData},
                             { partial: current.data.data[current.pathname] });
                     }
-                    console.log('Async Entered!', options);
-                    this.component = new current.data.template.default(options);                     
+                    this.component = new current.data.template.default(options); 
+                    console.log('Async Entered!', current);                    
                     roadtrip.Routing.notify(current);
                 } else {
                     console.log('Entered!', current);
