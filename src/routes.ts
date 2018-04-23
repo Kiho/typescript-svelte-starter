@@ -20,7 +20,7 @@ export default class Routes {
 
     init(target) {
         this.indexHandler = new IndexHandler(Home, target);
-        this.aboutHandler = new IndexHandler(null, target);
+        this.aboutHandler = new IndexHandler(null, target, 'about');
         this.employeeHandler = new IndexHandler(null, target);
         this.departmentHandler = new IndexHandler(null, target);
 

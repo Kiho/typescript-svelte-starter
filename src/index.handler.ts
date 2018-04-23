@@ -24,8 +24,8 @@ export default class IndexHandler {
                 target: this.target,
             });
         } else {
-            if (current.pathname === 'about') {
-                current.data = { template: await import(`./components/${current.pathname}/${current.pathname}.html`) }; 
+            if (this.path) {
+                current.data = { template: await import(`./components/${this.path}/${this.path}.html`) }; 
             } else {
                 current.data = await this.importModules(current.pathname);
             }                     

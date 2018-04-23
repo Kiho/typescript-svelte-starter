@@ -1,4 +1,3 @@
-import Requests from '../utils/request';
 import AppService from './appService';
 
 export default {
