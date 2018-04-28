@@ -25,26 +25,14 @@
     const app = Object.assign({}, appPage);
 
     export default {
-        data() {
-            return {
-                list: [],
-                showModal: false,
-                selectedItem: null,
-                path: '',
-                title: '',             
-                fielddata: [],
-                columndata: [],
-            };
-        },
         components: {
             Modal,
             FormGrid, 
             DataGrid
         },
         oncreate () {
-            const { partial, initialData } = this.options;
+            const { partial } = this.options;
             const p = app.oncreate(this, partial);
-            this.set(initialData);
             partial.oncreate(p);          
         },
         methods: {

@@ -41,7 +41,7 @@ export default class IndexHandler {
                     if (current.data.data) {
                         Object.assign(                            
                             options, 
-                            { initialData: current.data.data.initialData},
+                            { data: current.data.data.initialData},
                             { partial: current.data.data[current.pathname] });
                     }
                     this.component = new current.data.template.default(options); 
