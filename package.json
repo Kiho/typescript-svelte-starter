@@ -35,7 +35,7 @@
     "loader-utils": "^1.1.0",
     "rimraf": "^2.6.2",
     "roadtrip": "^0.6.1",
-    "svelte": "1.60.3",
+    "svelte": "2.1.1",
     "svelte-formgrid": "file:../svelte-formgrid",
     "svelte-loader": "^2.8.1",
     "ts-loader": "^3.2.0",
