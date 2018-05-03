@@ -1,19 +1,19 @@
 <div class="container">
-    <h1>{{title}}</h1>
+    <h1>{title}</h1>
     <div class="row">
         <div class="col-md-12">
-            <DataGrid bind:rows="list" bind:columns="columndata" edit={{false}} ></DataGrid>
+            <DataGrid bind:rows="list" bind:columns="columndata" edit={false} ></DataGrid>
             <button type="button" class="btn btn-primary" on:click='add(event)'>Add New</button>
         </div>
     </div>
     <div>
-        {{#if showModal}}
-            <Modal on:close='close()' on:save='save(selectedItem, event)' title={{selectedItem.name}}>
+        {#if showModal}
+            <Modal on:close='close()' on:save='save(selectedItem, event)' title={selectedItem.name}>
                 <div class=form-group>
-                    <FormGrid columns={{fielddata}} bind:item="selectedItem" ref:form ></FormGrid> 
+                    <FormGrid columns={fielddata} bind:item="selectedItem" ref:form ></FormGrid> 
                 </div>                     
             </Modal>
-        {{/if}}
+        {/if}
     </div>
 </div>
 
