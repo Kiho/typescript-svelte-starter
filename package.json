@@ -1,21 +1,21 @@
 {
   "name": "typescript-svelte-starter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf public/dist",
+    "clean": "rimraf dist",
     "del:formgrid": "rimraf node_modules/svelte-formgrid",
     "refresh": "npm run del:formgrid && npm i",
-    "build": "webpack && copyfiles ./index.html ./dist",
-    "build:min": "SET NODE_ENV=production&& npm run build",
+    "copy": "copyfiles ./index.html ./dist",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack && npm run copy",
+    "build:dev": "npm run clean && cross-env NODE_ENV=development webpack && npm run copy",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack -w",
     "serve:api": "node server/index.js",
-    "serve:dev": "webpack-dev-server --content-base dist --hot --inline",
-    "start:dev": "cross-env NODE_ENV=development && npm run serve:dev",
-    "dev": "concurrently \"npm run watch\"  \"npm run start:dev\" \"npm run serve:api\""
+    "serve:dev": "webpack-dev-server --hot --inline",
+    "dev": "concurrently \"npm run serve:dev\" \"npm run serve:api\"",
+    "start": "cross-env NODE_ENV=production node server/index.js"
   },
   "keywords": [
     "svelte",
@@ -25,7 +25,7 @@
     "name": "Kiho Chang",
     "url": "https://github.com/kiho"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "devDependencies": {
     "@types/requirejs": "^2.1.28",
     "body-parser": "^1.18.2",
@@ -35,16 +35,16 @@
     "css-loader": "^0.28.1",
     "dateformat": "^3.0.3",
     "express": "^4.16.3",
-    "loader-utils": "^1.1.0",
     "rimraf": "^2.6.2",
     "roadtrip": "^0.6.1",
     "svelte": "1.60.3",
     "svelte-formgrid": "git://github.com/Kiho/svelte-formgrid#lib",
     "svelte-loader": "^2.8.1",
-    "ts-loader": "^3.2.0",
+    "ts-loader": "^4.2.0",
     "typescript": "^2.8.1",
     "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.0"
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.15",
+    "webpack-dev-server": "^3.1.3"
   }
 }

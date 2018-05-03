@@ -5,7 +5,7 @@ The goal of this project is to provide a starting base for an Business Applicati
 
 Features:
 
-* webpack with dynamic import
+* webpack with dynamic import & code-splitting
 * Build form & list from json([svelte-formgrid](https://github.com/Kiho/svelte-formgrid))
 * roadtrip as router
 * CURD opertion with API

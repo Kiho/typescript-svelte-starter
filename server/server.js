@@ -3,26 +3,44 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var package = require('../package.json');
 
+var mode = process.env.NODE_ENV || 'development';
+const isProduction = mode === 'production';
+
 var config = package.config;
 var app = express();
 
-app.set('port', (process.env.PORT || 5002));
-
-// app.set('view engine', 'jade');
-// app.set('views', path.join(__dirname, 'views'));
+app.set('port', (process.env.PORT || isProduction ? 8098 : 5002));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// app.use(config.assetsPublicPath, express.static(path.join(__dirname, 'public')));
+if (isProduction) {
+  app.use(express.static(`${__dirname}/../dist`));
+}
 
 var api = require('./api/routes');
 app.use('/api/', api);
 
-console.log('NODE_ENV', process.env.NODE_ENV);
+// console.log('NODE_ENV', process.env.NODE_ENV, `${__dirname}/../dist`);
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+//404 catch-all handler (middleware)
+app.use(function(req, res) {
+  res.type("text/plain");
+  res.status(404);
+  res.send("404 - Not Found");
+});
+
+//500 error handler (middleware)
+app.use(function(err, req, res, next) {
+  res.status(500).render("500");
+});
+
+app.listen(app.get("port"), function() {
+  console.log(
+    `Express started on http://localhost:${app.get(
+      "port"
+    )}; press Ctrl-C to terminate.`
+  );
 });
