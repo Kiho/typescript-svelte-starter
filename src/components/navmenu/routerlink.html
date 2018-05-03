@@ -1,14 +1,14 @@
-{{#if li}}
-<li class="{{ calssName + ' ' + active }}">
-    <a href='{{basePath}}{{ to }}' on:click='navigate(event, to)'>
-        {{ yield }}
+{#if li}
+<li class="{ calssName + ' ' + active }">
+    <a href='{basePath}{ to }' on:click='navigate(event, to)'>
+        <slot></slot>
     </a>
 </li>
-{{else}}
-<a href='{{basePath}}{{ to }}' class="{{ calssName + ' ' + active }}" on:click='navigate(event, to)'>
-    {{ yield }}
+{:else}
+<a href='{basePath}{ to }' class="{ calssName + ' ' + active }" on:click='navigate(event, to)'>
+    <slot></slot>
 </a>
-{{/if}}
+{/if}
 
 <script>
     import roadtrip from 'roadtrip';
@@ -26,14 +26,20 @@
                 item: null
             }
         },
-        oncreate () {    
-            this.observe('location', location => {
-                // console.log(location);
-                this.setActivedClass(location);
-            });
+        // oncreate () {    
+        //     this.observe('location', location => {
+        //         // console.log(location);
+        //         this.setActivedClass(location);
+        //     });
 
-            //on:click="editFood(event, item)"
+        //     //on:click="editFood(event, item)"
+        // },
+        onstate({ changed, current, previous }) {
+            if (changed.value) {
+                this.setActivedClass(current);
+            }
         },
+
         methods: {
             navigate ($e, to) {
                 if ($e && $e.preventDefault) $e.preventDefault()
