@@ -37,6 +37,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.json', '.html'],
+    mainFields: ['svelte', 'module', 'main']
   },
   performance: {
     hints: false
