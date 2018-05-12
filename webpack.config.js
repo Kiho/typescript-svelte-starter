@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
-const isDevBuild = mode !== 'production';
+const isDevBuild = mode === 'development';
 
 module.exports = {
   entry: {
@@ -11,7 +11,7 @@ module.exports = {
     'formgrid': 'svelte-formgrid',
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, isDevBuild ? './dist': './docs'),
     publicPath: '/',
     filename: '[name].js',
   },
