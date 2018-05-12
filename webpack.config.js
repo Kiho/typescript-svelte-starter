@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, isDevBuild ? './dist': './docs'),
-    publicPath: isDevBuild ? '/' : `/typescript-svelte-starter/`,
+    publicPath: isDevBuild ? '/' : '/typescript-svelte-starter/',
     filename: '[name].js',
   },
   mode,
