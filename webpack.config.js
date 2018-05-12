@@ -62,7 +62,7 @@ if (!isDevBuild) {
     minimize: true,
     minimizer: [
       new UglifyJSPlugin({
-        sourceMap: false,
+        sourceMap: true,
       })
     ]
   }
