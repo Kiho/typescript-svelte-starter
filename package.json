@@ -13,7 +13,7 @@
     "build:dev": "npm run clean && cross-env NODE_ENV=development webpack && npm run copy",
     "copy:gh": "copyfiles ./index.html ./docs",
     "clean:gh": "rimraf docs",
-    "build:gh": "npm run clean:gh && cross-env NODE_ENV=gh-docs webpack && npm run copy:gh",
+    "build:gh": "npm run clean:gh && cross-env NODE_ENV=production webpack && npm run copy:gh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve:api": "node server/index.js",
     "serve:dev": "webpack-dev-server --hot --inline",
