@@ -1,5 +1,5 @@
 import Requests from '../utils/request';
-const apiBaseUrl = 'https://cryptic-dusk-82553.herokuapp.com/';
+import { apiBaseUrl } from '../config';
 
 export default class AppService {
 
