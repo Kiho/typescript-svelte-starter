@@ -3,10 +3,10 @@
  */
 
 import Svelte from 'svelte';
+import { siteName } from './config';
 import App from './components/app/app.html';
 
 // declare var siteName;
-var siteName;
 (window as any).basePath = siteName == undefined ? '' : `/${siteName}`;
 
 const app: Svelte = new App({
