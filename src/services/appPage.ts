@@ -24,7 +24,8 @@ export default {
 
     save(this: IAppPage, item, evt?) {
         evt && evt.preventDefault();
-        if (!validateForm(this.refs.form.refs.form)){
+        const refForm = <Svelte>this.refs.form;
+        if (!validateForm(refForm.refs.form)){
             return;
         }
         const fnSave = (data) => {

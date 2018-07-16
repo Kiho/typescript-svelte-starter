@@ -27,5 +27,5 @@ declare class Svelte {
 }
 
 interface RefCollection {
-    [name: string]: { refs: any };
+    [name: string]: Svelte | HTMLElement;
 }

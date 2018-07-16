@@ -12,6 +12,7 @@
 
 <script>
     import roadtrip from 'roadtrip';
+    import { basePath } from '../../routes';
 
     const activedClassName = 'router-link-active'
     
@@ -19,21 +20,14 @@
         data () {
             return {
                 to: '/',
-                basePath: basePath,
+                basePath,
                 active: '',
                 location: '',
                 calssName: '',
                 item: null
             }
         },
-        // oncreate () {    
-        //     this.observe('location', location => {
-        //         // console.log(location);
-        //         this.setActivedClass(location);
-        //     });
 
-        //     //on:click="editFood(event, item)"
-        // },
         onstate({ changed, current, previous }) {
             if (changed.value) {
                 this.setActivedClass(current);

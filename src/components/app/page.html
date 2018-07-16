@@ -23,6 +23,7 @@
     import appPage from '../../services/appPage';
 
     const app = Object.assign({}, appPage);
+    const { getList, add, edit, save, close } = app;
 
     export default {
         components: {
@@ -36,11 +37,11 @@
             partial.oncreate(p);          
         },
         methods: {
-            getList: app.getList,
-            add: app.add,
-            edit: app.edit,
-            save: app.save,
-            close: app.close
+            getList,
+            add,
+            edit,
+            save,
+            close
         }
     }    
 </script>
