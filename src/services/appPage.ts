@@ -1,43 +1,38 @@
 import AppService from './appService';
 
 export default {
-    oncreate (p, o?) {
-        return Object.assign(p, this, o);   
-    },
-
     getList(this: IAppPage) {
-        const { path } = this.get();
-        AppService.getList(path).then(data => {
-            this.set({ list: data  });
+        AppService.getList(this.path).then(data => {
+            this.$set({ list: data  });
         });
     },
 
     add(this: IAppPage, evt?) {
         evt && evt.preventDefault();
-        this.set({ showModal: true, selectedItem: {} });
+        this.$set({ showModal: true, selectedItem: {} });
     },
 
     edit(this: IAppPage, item, evt?) {
         evt && evt.preventDefault();
-        this.set({ showModal: true, selectedItem: item });
+        this.$set({ showModal: true, selectedItem: Object.assign({}, item) });
     },
 
     save(this: IAppPage, item, evt?) {
         evt && evt.preventDefault();
-        const refForm = <Svelte>this.refs.form;
-        if (!validateForm(refForm.refs.form)){
+        const self = this;
+        const refForm = this.form.querySelector('form');
+        if (!validateForm(refForm)) {
             return;
         }
         const fnSave = (data) => {
-            this.close();
-            this.getList();
+            self.close();
+            self.getList();
         }
-        const { path } = this.get();
-        AppService.save(path, item, fnSave);
+        AppService.save(this.path, item, fnSave);
     },
     
     close(this: IAppPage) {
-        this.set({ showModal: false, selectedItem: null });
+        this.$set({ showModal: false, selectedItem: null });
     },
 }
 

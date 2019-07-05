@@ -64,24 +64,20 @@ const departmentColumn = columndata.find(x => x.field == 'departmentId');
 departmentColumn.component = '';
 
 const employee = {
-    oncreate (p) {          
-        actionColumn.action = (row) => p.edit(row);
-        p.getList();           
+    async oncreate(instance: IAppPage) {    
+        actionColumn.action = (row) => instance.edit(row);
+        await this.getDepartmentList(instance);
     },
     
-    getList(this: IAppPage) {
-        AppService.getList('department').then((depts: any[]) =>{
-            this.set({ departmentList: depts });
-            departmentField.optionList = depts;
-            departmentColumn.field = (data) => {
-                const { departmentList } = this.get();
-                const found = departmentList.find(x => x.id == data.departmentId);
-                return found ? found.name : '';
-            }
-            AppService.getList(path).then(data => {
-                this.set({ list: data });
-            });
-        });
+    async getDepartmentList(instance: IAppPage) {
+        console.log('getList');
+        const depts = await AppService.getList('department');
+        instance.$set({ departmentList: depts });
+        departmentField.optionList = depts;
+        departmentColumn.field = (data) => {
+            const found = depts.find(x => x.id == data.departmentId);
+            return found ? found.name : '';
+        }
     },
 }
 export { initialData, employee }

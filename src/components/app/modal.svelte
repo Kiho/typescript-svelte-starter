@@ -1,4 +1,13 @@
-<div class='modal-background' on:click='fire("close")'></div>
+<script>
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	export let modalSize = 'default';
+	export let title = '';
+</script>
+
+<div class='modal-background' on:click='{() => dispatch("close")}'></div>
 
 <div class='modal-container modal-{modalSize}'>
     <div class="modal-header">
@@ -10,22 +19,25 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-secondary pull-right" on:click='fire("close")'>Close</button>
-		<button type="button" class="btn btn-primary pull-right" on:click='fire("save")'>Save Changes</button>
+		<button type="button" class="btn btn-secondary pull-right" on:click='{() => dispatch("close")}'>Close</button>
+		<button type="button" class="btn btn-primary pull-right" on:click='{() => dispatch("save")}'>Save Changes</button>
 	</div>
 </div>
 
 <style>
 	.modal-footer {
-        padding: 10px 15px 0;
-    }
+    padding: 10px 15px 0;
+  }
+
 	.modal-footer .btn-primary {
-        margin-right: 10px
-    }
-    .modal-header,
+    margin-right: 10px
+  }
+
+  .modal-header,
 	.modal-body {
-        padding: 15px 50px 15px 50px;
-    }
+		padding: 15px 50px 15px 50px;
+	}
+
 	.modal-background {
 		position: fixed;
 		top: 0;
@@ -42,37 +54,28 @@
 		overflow: auto;
 		transform: translate(-50%,-50%);
 		padding: 1em;
-        width: calc(100vw - 4em);
-        max-height: calc(100vh - 4em);
+		width: calc(100vw - 4em);
+		max-height: calc(100vh - 4em);
 		border-radius: 0.2em;
 		background: white;
 	}
 
-    .modal-small {
+	.modal-small {
 		max-width: 32em;
-    }
+	}
 
-    .modal-default {
+	.modal-default {
 		max-width: 48em;
-    }
+	}
 
-    .modal-large {
+	.modal-large {
 		max-width: 64em;
-    }
+	}
 
 	button {
 		display: block;
 	}
 	.invalid-feedback {
-        color: red;
-    }
+		color: red;
+	}
 </style>
-
-<script>
-    export default {
-        data: () => ({
-            title: '',
-            modalSize: 'default',
-		}),
-	};
-</script>

@@ -1,4 +1,4 @@
-﻿declare var basePath;
+﻿import { basePath } from '../config';
 
 class Requests {
     static async makeRequest(url, method, headers, body?) {

@@ -2,8 +2,8 @@ import Requests from '../utils/request';
 
 export default class AppService {
 
-    static async getList(path: string): Promise<{}> {
-        return Requests.get(`api/${path}`);
+    static async getList(path: string): Promise<any[]> {
+        return Requests.get(`api/${path}`) as Promise<any[]>;
     }
 
     static async save(path: string, item, fnSave): Promise<{}> {

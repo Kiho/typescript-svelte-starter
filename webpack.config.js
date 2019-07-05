@@ -8,7 +8,6 @@ const isDevBuild = mode !== 'production';
 module.exports = {
   entry: {
     'main': './src/index.ts',
-    'formgrid': 'svelte-formgrid',
   },
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -19,9 +18,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
-        use: { loader: 'svelte-loader', options: { dev: isDevBuild, store: true } },
-        exclude: ['/node_modules/', '/index.html']
+        test: /\.svelte$/,
+        use: { loader: 'svelte-loader', options: { dev: isDevBuild } },
+        exclude: ['/node_modules/', '/index.svelte']
       },
       { 
         test: /\.ts$/, 
@@ -36,19 +35,19 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json', '.html'],
+    extensions: ['.ts', '.mjs', '.js', '.json', '.svelte'],
     mainFields: ['svelte', 'module', 'main']
   },
   performance: {
     hints: false
   },
 
-  plugins: [
-    new webpack.optimize.SplitChunksPlugin({
-      name: "formgrid",
-      minChunks: Infinity,
-    }),
-  ]
+  // plugins: [
+  //   new webpack.optimize.SplitChunksPlugin({
+  //     name: "formgrid",
+  //     minChunks: Infinity,
+  //   }),
+  // ]
 }
 
 if (!isDevBuild) {

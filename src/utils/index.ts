@@ -27,3 +27,23 @@ export function getPathName(path) {
     if (sub.indexOf('/') === -1) { return path; }
     return '/' + sub.replace(/[^/]*$/, '').replace(/\/$/, "");
 }
+
+export function omitProps(props, ...exclude) {
+    if (props) {
+        const n = Object.assign({}, props);
+        // const t = component.get(), n = {};   
+        // for (let k in s) {
+        //     if (t[k] !== undefined) {
+        //         n[k] = s[k];
+        //     }
+        // }
+        // console.log('exclude', exclude);
+        if (exclude && exclude.length) {
+            for (let i = 0; i < exclude.length; i++) {
+                delete n[exclude[i]];
+            }
+        }                        
+        return n;
+    }
+    return props;
+}

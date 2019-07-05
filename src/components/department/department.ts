@@ -1,5 +1,3 @@
-import AppService from '../../services/appService';
-
 const path = 'department';
 const title = 'Departments';
 
@@ -46,9 +44,8 @@ const initialData = {
 };
 
 const department = {
-    oncreate (p) {
-        actionColumn.action = (row) => p.edit(row);
-        p.getList();    
+    async oncreate (instance: IAppPage) {    
+        actionColumn.action = (row) => instance.edit(row);          
     },
 }
 

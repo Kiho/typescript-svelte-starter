@@ -25,8 +25,11 @@ interface IColumn {
     action?: (row) => void;
 }
 
-interface IAppPage extends Svelte {
+interface IAppPage {
     path: string;
+    form: HTMLElement;
+    $set: (arg: any) => void;
+    edit: (item, evt?) => void;
     close: () => void;
     getList: () => void;
 }

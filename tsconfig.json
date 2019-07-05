@@ -5,12 +5,13 @@
     "target": "es5",
     "declaration": false,
     "noImplicitAny": false,
-    "allowJs": false,
+    "allowJs": true,
     "sourceMap": true,
+    "baseUrl": "./src",
     "outDir": "build/js/",
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [ "dom", "es2015" ],
+    "lib":  ["dom", "esnext", "es6"],
     "typeRoots": [
       "./node_modules/@types"
     ]

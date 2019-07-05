@@ -6,7 +6,7 @@ The goal of this project is to provide a starting base for an Business Applicati
 Features:
 
 * webpack with dynamic import & code-splitting
-* Build form & list from json([svelte-formgrid](https://github.com/Kiho/svelte-formgrid))
+* Build form & list from json
 * roadtrip as router
 * CURD opertion with API
 
@@ -33,7 +33,6 @@ Simple API is serving at [http://localhost:5002/api](http://localhost:5002/api)
 * Bootstrap
 * webpack
 * TypeScript
-* [svelte-formgrid](https://github.com/Kiho/svelte-formgrid)
 
 Need Express to run api server
 
